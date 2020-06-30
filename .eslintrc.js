@@ -5,21 +5,23 @@ module.exports = {
     node: true,
   },
   extends: [
-    'airbnb',
-    'plugin:jest/recommended',
     'plugin:react/recommended',
+    'airbnb',
   ],
+  globals: {
+    Atomics: 'readonly',
+    SharedArrayBuffer: 'readonly',
+  },
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
     },
     ecmaVersion: 11,
+    sourceType: 'module',
   },
   plugins: [
     'react',
   ],
-  ignorePatterns: ['client/dist/*', 'node_modules/*'],
   rules: {
-    "react/destructuring-assignment": [<enabled>, 'always']
   },
 };

@@ -15,21 +15,21 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 const port = process.env.PORT || 8080;
 
 const proxyOptions = {
-  target: 'http://localhost:3000',
+  target: 'localhost',
   changeOrigin: true,
   router: {
     'localhost:8080/api/description': 'http://localhost:3000',
-    'localhost:8080/api/reviews': 'http://localhost:3001',
-    'localhost:8080/api/reservation': 'http://localhost:3002',
+    'localhost:8080/api/reviews': 'http://localhost:3002',
+    'localhost:8080/api/reservation': 'http://localhost:3001',
   },
 };
 
 const proxy = createProxyMiddleware(proxyOptions);
 const app = express();
 const proxyPath = path.join(__dirname);
-const descPath = path.join(__dirname, 'components', 'FEC-Description-Component', 'client', 'dist');
-const revPath = path.join(__dirname, 'components', 'FEC-Reviews-Component', 'client', 'public');
-const resPath = path.join(__dirname, 'components', 'FEC-Reservation-Component', 'client', 'dist');
+const descPath = path.join(__dirname, '..', 'FEC-Description-Component', 'client', 'dist');
+const revPath = path.join(__dirname, '..', 'FEC-Reviews-Component', 'client', 'public');
+const resPath = path.join(__dirname, '..', 'FEC-Reservation-Component', 'client', 'dist');
 app.use('/api', proxy);
 app.use('/', express.static(proxyPath));
 app.use('/description', express.static(descPath));
