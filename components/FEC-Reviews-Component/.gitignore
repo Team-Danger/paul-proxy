@@ -1,0 +1,5 @@
+node_modules
+coverage
+bundle.js
+spec/app.test.js
+.config.js

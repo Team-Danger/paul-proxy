@@ -1,0 +1,6 @@
+webpack.config.js
+package.json
+coverage/*
+node_modules/*
+.circleci/*
+bundle.js
