@@ -12,7 +12,8 @@
     "http-proxy-middleware": "^1.0.4"
   },
   "scripts": {
-    "start": "nodemon ./index.js"
+    "start": "nodemon ./index.js",
+    "start:prod": "node ./index.js"
   },
   "devDependencies": {
     "eslint": "^7.3.1",
