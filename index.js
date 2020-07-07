@@ -2,6 +2,7 @@ const Console = require('console');
 const path = require('path');
 const express = require('express');
 const { createProxyMiddleware } = require('http-proxy-middleware');
+const compression = require('compression');
 
 // have a server that takes various different api calls:
 // localhost:8080/description/:id
@@ -39,6 +40,7 @@ const proxyPath = path.join(__dirname);
 const descPath = path.join(__dirname, 'description', 'client', 'dist');
 const revPath = path.join(__dirname, 'reviews');
 const resPath = path.join(__dirname, 'reservation');
+app.use(compression());
 app.use('/api', proxy);
 app.use('/', express.static(proxyPath));
 app.use('/description', express.static(descPath));
