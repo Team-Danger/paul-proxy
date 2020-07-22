@@ -2,6 +2,7 @@ const Console = require('console');
 const path = require('path');
 const express = require('express');
 const { createProxyMiddleware } = require('http-proxy-middleware');
+const compression = require('compression');
 
 // have a server that takes various different api calls:
 // localhost:8080/description/:id
@@ -14,22 +15,32 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const port = process.env.PORT || 8080;
 
+const routerObj = {
+  '/api/description': 'http://description:3000',
+  '/api/reviews': 'http://reviews:3002',
+  '/api/reservation': 'http://reservation:3001',
+};
+
+const router = (req) => {
+  const urlParser = /^(\/.*\/.*)\/.*/;
+  const apiPath = urlParser.exec(req.originalUrl)[1];
+  const newUrl = routerObj[apiPath];
+  return new Promise((resolve) => resolve(newUrl));
+};
+
 const proxyOptions = {
   target: 'localhost',
   changeOrigin: true,
-  router: {
-    'localhost:8080/api/description': 'http://localhost:3000',
-    'localhost:8080/api/reviews': 'http://localhost:3002',
-    'localhost:8080/api/reservation': 'http://localhost:3001',
-  },
+  router,
 };
 
 const proxy = createProxyMiddleware(proxyOptions);
 const app = express();
 const proxyPath = path.join(__dirname);
-const descPath = path.join(__dirname, '..', 'FEC-Description-Component', 'client', 'dist');
-const revPath = path.join(__dirname, '..', 'FEC-Reviews-Component', 'client', 'public');
-const resPath = path.join(__dirname, '..', 'FEC-Reservation-Component', 'client', 'dist');
+const descPath = path.join(__dirname, 'description', 'client', 'dist');
+const revPath = path.join(__dirname, 'reviews');
+const resPath = path.join(__dirname, 'reservation');
+app.use(compression());
 app.use('/api', proxy);
 app.use('/', express.static(proxyPath));
 app.use('/description', express.static(descPath));

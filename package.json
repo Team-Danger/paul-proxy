@@ -8,11 +8,13 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
+    "compression": "^1.7.4",
     "express": "^4.17.1",
     "http-proxy-middleware": "^1.0.4"
   },
   "scripts": {
-    "start": "nodemon ./index.js"
+    "start": "nodemon ./index.js",
+    "start:prod": "node ./index.js"
   },
   "devDependencies": {
     "eslint": "^7.3.1",
